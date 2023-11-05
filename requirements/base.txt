@@ -1,0 +1,14 @@
+django-filter
+django-autoslug
+django-countries
+django-phonenumber-field
+phonenumbers
+drf-yasg
+Pillow
+argon2-cffi
+pytz
+django-taggit
+Django==4.2.7
+django-environ==0.11.2
+djangorestframework==3.14.0
+django-cors-headers==4.3.0
