@@ -79,16 +79,16 @@ WSGI_APPLICATION = "authors_api.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "mydatabase",
-    }
-}
-
-# DATABASES ={
-#     "default":env.db("DATABASE_URL")
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": "mydatabase",
+#     }
 # }
+
+DATABASES ={
+    "default":env.db("DATABASE_URL")
+}
 
 PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.Argon2PasswordHasher",
@@ -148,3 +148,46 @@ MEDIA_ROOT = str(ROOT_DIR/"mediafiles")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_URLS_REGEX = r"^api/.*$"
+
+LOGGING ={
+    "version":1,
+    "disable_existing_loggers":False,
+    "formatters":{
+        "verbose":{
+            "format":"%(levelname)s %(name)-12s %(asctime)s %(module)s "
+            "%(process)d %(thread)d %(message)s"
+        }
+    },
+    "handlers":{
+        "console":{
+            "level":"DEBUG",
+            "class":"logging.StreamHandler",
+            "formatter":"verbose",
+
+        }
+
+    },
+    "root":{
+         "level":"INFO",
+         "handlers":["console"]
+    },
+}
+
+"""
+verbose = name of the formatter
+lebelname = the log level of the message i.e warning debug info critical etc
+name = package name that emits the log message
+asctime = timestamp to each message
+-12s = controls spacing between the different format specifications
+module = module name that emits the log message
+process = process id of the current process
+thread = thread id of the current thread
+message = error / log message
+
+i.e WARNING django.request 2023-11-05 15:36:22,825 log 86467 140007222277696 Not Found: /j
+"""
+
+"""
+handlers = where the log message is send to
+
+"""
