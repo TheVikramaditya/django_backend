@@ -1,1 +1,3 @@
 myenv/
+.envs/.local/.django
+.envs/.local/.postgres
