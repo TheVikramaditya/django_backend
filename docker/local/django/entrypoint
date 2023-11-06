@@ -7,7 +7,7 @@ set -o pipefail
 set -o nounset
 
 if [ -z "${POSTGRES_USER}" ]; then
-    base_postgres_image_default_user='postgres
+    base_postgres_image_default_user='postgres'
     export POSTGRES_USER="${bash_postgres_image_default_user}"
 fi
 
@@ -33,8 +33,7 @@ while True:
     except psycopg2.OperationalError as error:
         sys.stderr.write("Waiting for postgres to become available...\n")
         if time.time() -  start > suggest_unrecoverable_after:
-            sys.stderr.write("This is taking longer than expected , The following exception may be indocating of an unrecoverable error: '{}'\n".format
-            (error))
+            sys.stderr.write(f"This is taking longer than expected , The following exception may be indocating of an unrecoverable error: {error}" )
     time.sleep(1)
 END
 >&2 echo "Postgres is available"

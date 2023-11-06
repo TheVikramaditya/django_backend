@@ -20,3 +20,10 @@ steps
     create start script file
 
     create .dockerignore file == allows us to mention a list of files or directories which we might want to ignore while building the image
+
+    create a local.yml == like a docker-compose file for multiple services
+        >>docker-compose -f local.yml config == command to check if we created right or not
+        >>sudo docker-compose -f local.yml up --build -d --remove-orphans
+
+    
+    
