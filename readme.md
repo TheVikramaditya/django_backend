@@ -24,6 +24,12 @@ steps
     create a local.yml == like a docker-compose file for multiple services
         >>docker-compose -f local.yml config == command to check if we created right or not
         >>sudo docker-compose -f local.yml up --build -d --remove-orphans
+    
+    create a maintenance folder/file
+        """this folder will contain scripts to help in database backup and restoration"""
+    
+    created a _sourced dir inside maintenance
+        """have some helper shell scripts that will be used by our backup and restore shell scripts"""
 
     
     
