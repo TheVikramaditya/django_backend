@@ -54,6 +54,12 @@ steps
         >> make authors-db
 
 
+customising user model
+
+    create manager.py file 
+        """where we are going to define our custom user manager and a manager is absically an interface through which database query operations are provided to django models"""
+
+
 
     
     
