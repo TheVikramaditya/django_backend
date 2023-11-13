@@ -34,10 +34,15 @@ steps
     to create a backup file
 
         >>sudo docker-compose -f local.yml exec postgres backup , here postgres is a service name
+        
+        NOTE = now we might be wondering how backup is able to call directly without diving in folders containing this script , its because
+        if we will look dockerfile inside postgres then the files of maintenance folder is moved to /user/local/bin and we can execute any file directly 
+        if the file is inside this path /user/local/bin 
     
     to list backup files
 
         >>sudo docker-compose -f local.yml exec postgres backups
+        when we will go inside postgres container then a folder has been created with the name of backups
     
     to restore database
 
