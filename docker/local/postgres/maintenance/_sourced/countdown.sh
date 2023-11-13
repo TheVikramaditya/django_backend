@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+
+# the function will take a number of seconds as an argument and display a countdown timer in the terminal
+# the timer updates in real time and runs until the specified number of seconds have elapsed
 countdown(){
     declare desc="A simple countdown."
 

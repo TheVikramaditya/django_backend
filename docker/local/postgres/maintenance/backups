@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+set -o nounset
+
+set -o pipefail
+
+working_dir="$(dirname ${0})"
+# the working_dir is where the script is located , dirname = returns the directory name of a path , 0 =name of the script
+
+source "${working_dir}/_sourced/constants.sh"
+source "${working_dir}/_sourced/messages.sh"
+# source = bash command that rrads and executes commands from a file
+
+message_welcome "These are the abckups you have got:"
+
+ls -lht "${BACKUP_DIR_PATH}"

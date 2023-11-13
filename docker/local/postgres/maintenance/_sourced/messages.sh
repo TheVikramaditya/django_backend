@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+
+# defining the messages with different formatting and styles that our script will display
+
 message_newline(){
     echo 
 }
