@@ -51,6 +51,7 @@ steps
     to run makefile
         >> make build
         >> make down
+        >> make authors-db
 
 
 
