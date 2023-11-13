@@ -1,61 +1,127 @@
 #!/usr/bin/env bash
 
+
+
+
+
+
+
+#!/usr/bin/env bash
+
 set -o errexit
-
 set -o nounset
-
 set -o pipefail
 
 working_dir="$(dirname ${0})"
-# the working_dir is where the script is located , dirname = returns the directory name of a path , 0 =name of the script
-
 source "${working_dir}/_sourced/constants.sh"
 source "${working_dir}/_sourced/messages.sh"
 
-
-# if the first parameter which is 'backup' is empty.. -z checks if the length of string is zero
 if [[ -z ${1+x} ]]; then
-
-    message_error "Backing file name is not specified yet it is a required parameter. make sure to provide one and try again"
-
+    message_error "Backing file name is not specified yet it is a required parameter. Make sure to provide one and try again"
     exit 1
 fi
 
-backup_filename = "${BACKUP_DIR_PATH}/${1}"
+backup_filename="${BACKUP_DIR_PATH}/${1}"
 
 if [[ ! -f "${backup_filename}" ]]; then
-
-    message_error "No backup with the specified bakup filename was not found , 
-    checkout the 'backups' maintenance script output to see if there is one and try again.."
-
+    message_error "No backup with the specified backup filename was found. Check the 'backups' maintenance script output to see if there is one and try again."
     exit 1
 fi
 
 message_welcome "Restoring the postgres '${POSTGRES_DB}' database from the '${backup_filename}' backup..."
 
 if [[ "${POSTGRES_USER}" == "postgres" ]]; then
-
-    message_error "RESTORING as a 'postgres' user is not allowed , Assign 'POSTGRES_USER '  env with another one and try again"
-
+    message_error "Restoring as a 'postgres' user is not allowed. Assign 'POSTGRES_USER' environment variable with another one and try again."
     exit 1
 fi
 
-export PGHOST = "${POSTGRES_HOST}"
-export PGPORT = "${POSTGRES_PORT}"
-export PGUSER = "${POSTGRES_USER}"
-export PGPASSWORD = "${POSTGRES_PASSWORD}"
-export PGDATABASE = "${POSTGRES_DB}"
+export PGHOST="${POSTGRES_HOST}"
+export PGPORT="${POSTGRES_PORT}"
+export PGUSER="${POSTGRES_USER}"
+export PGPASSWORD="${POSTGRES_PASSWORD}"
+export PGDATABASE="${POSTGRES_DB}"
 
 message_info "Dropping the database"
-
-dropdb "${PGDATABASE}"
+dropdb --username="${PGUSER}" "${PGDATABASE}"
 
 message_info "Creating a new database"
+createdb --username="${PGUSER}" --owner="${POSTGRES_USER}" "${PGDATABASE}"
 
-createdb --owner="${POSTGRES_USER}"
+message_info "Applying the backup to the new database"
+gunzip -c "${backup_filename}" | psql --username="${PGUSER}" "${POSTGRES_DB}"
 
-message_info "Applying the backup to new database"
+message_success "The '${POSTGRES_DB}' database has been restored successfully from the '${backup_filename}'"
 
-gunzip -c "${backup_filename}" | psql "${POSTGRES_DB}"
 
-message_success "The '${POSTGRES_DB}' database has been restored successfully from the '${backup_filename}' "
+
+
+
+
+
+
+
+
+
+
+
+
+
+# set -o errexit
+
+# set -o nounset
+
+# set -o pipefail
+
+# working_dir="$(dirname ${0})"
+# # the working_dir is where the script is located , dirname = returns the directory name of a path , 0 =name of the script
+
+# source "${working_dir}/_sourced/constants.sh"
+# source "${working_dir}/_sourced/messages.sh"
+
+
+# # if the first parameter which is 'backup' is empty.. -z checks if the length of string is zero
+# if [[ -z ${1+x} ]]; then
+
+#     message_error "Backing file name is not specified yet it is a required parameter. make sure to provide one and try again"
+
+#     exit 1
+# fi
+
+# backup_filename = "${BACKUP_DIR_PATH}/${1}"
+
+# if [[ ! -f "${backup_filename}" ]]; then
+
+#     message_error "No backup with the specified bakup filename was not found , 
+#     checkout the 'backups' maintenance script output to see if there is one and try again.."
+
+#     exit 1
+# fi
+
+# message_welcome "Restoring the postgres '${POSTGRES_DB}' database from the '${backup_filename}' backup..."
+
+# if [[ "${POSTGRES_USER}" == "postgres" ]]; then
+
+#     message_error "RESTORING as a 'postgres' user is not allowed , Assign 'POSTGRES_USER '  env with another one and try again"
+
+#     exit 1
+# fi
+
+# export PGHOST="${POSTGRES_HOST}"
+# export PGPORT="${POSTGRES_PORT}"
+# export PGUSER="${POSTGRES_USER}"
+# export PGPASSWORD="${POSTGRES_PASSWORD}"
+# export PGDATABASE="${POSTGRES_DB}"
+
+# message_info "Dropping the database"
+
+# dropdb "${PGDATABASE}"
+
+# message_info "Creating a new database"
+
+# createdb --owner="${POSTGRES_USER}"
+
+# message_info "Applying the backup to new database"
+
+# gunzip -c "${backup_filename}" | psql "${POSTGRES_DB}"
+
+# message_success "The '${POSTGRES_DB}' database has been restored successfully from the '${backup_filename}' "

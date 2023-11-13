@@ -31,5 +31,19 @@ steps
     created a _sourced dir inside maintenance
         """have some helper shell scripts that will be used by our backup and restore shell scripts"""
 
+    to create a backup file
+
+        >>sudo docker-compose -f local.yml exec postgres backup , here postgres is a service name
+    
+    to list backup files
+
+        >>sudo docker-compose -f local.yml exec postgres backups
+    
+    to restore database
+
+        >>sudo docker-compose -f local.yml exec postgres restore <file_name>
+
+
+
     
     
