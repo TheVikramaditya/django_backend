@@ -47,6 +47,10 @@ steps
     to restore database
 
         >>sudo docker-compose -f local.yml exec postgres restore <file_name>
+    
+    to run makefile
+        >> make build
+        >> make down
 
 
 
